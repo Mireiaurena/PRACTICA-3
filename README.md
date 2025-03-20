@@ -58,7 +58,7 @@ Este programa conecta el ESP32-S3 a una red WiFi y crea un servidor web. Una vez
 ### Salida esperada en la terminal:
 ```
 Conexión WiFi establecida
-Dirección IP: 192.168.58.26
+Dirección IP: 192.168.12.241
 Servidor HTTP iniciado
 ```
 
