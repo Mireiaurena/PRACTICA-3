@@ -71,7 +71,7 @@ Se establece un servidor web simple en un ESP32 que muestra una página HTML bá
 Crear una conexión Bluetooth entre el ESP32 y un dispositivo móvil para permitir la transmisión de datos entre ambos.
 
 ### Materiales
-- ESP32-S1
+- ESP32-S3
 - Aplicación móvil: Serial Bluetooth Terminal
 
 ### Procedimiento
