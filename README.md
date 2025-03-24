@@ -313,3 +313,116 @@ Este código establece una conexión Bluetooth entre el ESP32 y un dispositivo m
 ### Salidas esperadas:
 Si se envían datos desde otro dispositivo al ESP32 a través de Bluetooth:
 - Los datos serán recibidos y leídos por el ESP32 a través de `SerialBT.read()` y enviados a trav
+
+Ejercicios de mejora de nota:
+Ejercicio de mejora 1:
+Codigo main.cpp:
+
+#include <Arduino.h>
+#include <WiFi.h>
+#include <WebServer.h>
+
+void handle_root();
+// Configuración del Access Point (AP)
+const char* ssid = "Nautilus";  // Enter your SSID here 
+const char* password = "20000Leguas";  //Enter your Password here 
+
+WebServer server(80); // Servidor web en el puerto 80
+
+// Página HTML que se mostrará en el navegador
+String HTML = "<!DOCTYPE html>\
+<html>\
+<head><title>ESP32 Access Point</title></head>\
+<body>\
+<h1>ESP32 en Modo AP</h1>\
+<p>Estás conectado al ESP32 en modo Access Point.</p>\
+</body>\
+</html>";
+
+// Manejo de la raíz "/"
+void handle_root() {
+    server.send(200, "text/html", HTML);
+}
+
+void setup() {
+    Serial.begin(115200);
+    Serial.println("Iniciando Access Point...");
+
+    // Configurar el ESP32 como Access Point (sin conexión a internet)
+    WiFi.softAP(ssid, password);
+
+    // Mostrar la dirección IP del AP
+    Serial.print("AP IP address: ");
+    Serial.println(WiFi.softAPIP());
+
+    // Configurar el servidor web
+    server.on("/", handle_root);
+    server.begin();
+    Serial.println("Servidor web iniciado en modo AP.");
+}
+
+void loop() {
+    server.handleClient(); // Manejar solicitudes de clientes
+}
+
+Este código configura un ESP32 como punto de acceso WiFi (AP) y servidor web en el puerto 80. Se define un SSID y una contraseña con WiFi.softAP(), y se imprime la IP asignada con WiFi.softAPIP().
+El servidor web responde en la raíz ("/") con una página HTML simple mediante server.on("/", handle_root). Finalmente, server.handleClient() mantiene el servidor activo.
+
+
+Ejercicio de mejora 2:
+Codigo main.cpp:
+
+#include <Arduino.h>
+#include <BLEDevice.h>
+#include <BLEUtils.h>
+#include <BLEServer.h>
+
+// Definir UUIDs para el servicio y la característica
+#define SERVICE_UUID        "4fafc201-1fb5-459e-8fcc-c5c9c331914b"
+#define CHARACTERISTIC_UUID "beb5483e-36e1-4688-b7f5-ea07361b26a8"
+
+void setup() {
+  Serial.begin(115200);
+  Serial.println("Iniciando trabajo con BLE!");
+
+  // Inicializar el dispositivo BLE con un nombre
+  BLEDevice::init("MyESP32");
+
+  // Crear el servidor BLE
+  BLEServer *pServer = BLEDevice::createServer();
+
+  // Crear el servicio BLE
+  BLEService *pService = pServer->createService(SERVICE_UUID);
+
+  // Crear la característica BLE con permisos de lectura y escritura
+  BLECharacteristic *pCharacteristic = pService->createCharacteristic(
+                                         CHARACTERISTIC_UUID,
+                                         BLECharacteristic::PROPERTY_READ |
+                                         BLECharacteristic::PROPERTY_WRITE
+                                       );
+
+  // Establecer un valor inicial para la característica
+  pCharacteristic->setValue("Hola Mundo desde ESP32");
+  
+  // Iniciar el servicio
+  pService->start();
+
+  // Iniciar la publicidad para que otros dispositivos puedan encontrar el servidor
+  BLEAdvertising *pAdvertising = BLEDevice::getAdvertising();
+  pAdvertising->addServiceUUID(SERVICE_UUID);
+  pAdvertising->setScanResponse(true);
+  pAdvertising->setMinPreferred(0x06);  // Funciones que ayudan con problemas de conexión en iPhone
+  pAdvertising->setMinPreferred(0x12);
+  BLEDevice::startAdvertising();
+
+  Serial.println("¡Característica definida! Ahora puedes leerla en tu dispositivo.");
+}
+
+void loop() {
+  // Código principal que se ejecuta repetidamente
+  delay(2000);
+}
+
+Aquí, el ESP32 actúa como un servidor BLE, permitiendo que otros dispositivos lean y escriban datos. Se crea un servicio BLE con un UUID único y una característica BLE con permisos de lectura/escritura.
+En setup(), se inicializa BLE (BLEDevice::init()), se crea el servidor y se configura la publicidad con BLEDevice::startAdvertising(). El loop() solo mantiene el programa corriendo con delay(2000), ya que BLE funciona en segundo plano.
+
