@@ -314,10 +314,10 @@ Este código establece una conexión Bluetooth entre el ESP32 y un dispositivo m
 Si se envían datos desde otro dispositivo al ESP32 a través de Bluetooth:
 - Los datos serán recibidos y leídos por el ESP32 a través de `SerialBT.read()` y enviados a trav
 
-Ejercicios de mejora de nota:
-Ejercicio de mejora 1:
-Codigo main.cpp:
-
+## **Ejercicios de mejora de nota:**
+### **Ejercicio de mejora 1:**
+**Codigo main.cpp:**
+```
 #include <Arduino.h>
 #include <WiFi.h>
 #include <WebServer.h>
@@ -365,13 +365,14 @@ void loop() {
     server.handleClient(); // Manejar solicitudes de clientes
 }
 
+```
 Este código configura un ESP32 como punto de acceso WiFi (AP) y servidor web en el puerto 80. Se define un SSID y una contraseña con WiFi.softAP(), y se imprime la IP asignada con WiFi.softAPIP().
 El servidor web responde en la raíz ("/") con una página HTML simple mediante server.on("/", handle_root). Finalmente, server.handleClient() mantiene el servidor activo.
 
 
-Ejercicio de mejora 2:
-Codigo main.cpp:
-
+### **Ejercicio de mejora 2:**
+**Codigo main.cpp:**
+```
 #include <Arduino.h>
 #include <BLEDevice.h>
 #include <BLEUtils.h>
@@ -423,6 +424,15 @@ void loop() {
   delay(2000);
 }
 
+```
+
 Aquí, el ESP32 actúa como un servidor BLE, permitiendo que otros dispositivos lean y escriban datos. Se crea un servicio BLE con un UUID único y una característica BLE con permisos de lectura/escritura.
 En setup(), se inicializa BLE (BLEDevice::init()), se crea el servidor y se configura la publicidad con BLEDevice::startAdvertising(). El loop() solo mantiene el programa corriendo con delay(2000), ya que BLE funciona en segundo plano.
+
+
+
+
+
+
+  
 
