@@ -236,6 +236,8 @@ void loop() {
 
 ### Descripción
 Apartir del Ip generado, se puede acceder a una página web básica generada por el ESP32 que consiste en el juego de cartas del 21.
+![image](https://github.com/user-attachments/assets/b73c37a6-422b-4fe4-bbdb-0855f5696fe0)
+
 
 ## PRÁCTICA B - COMUNICACIÓN BLUETOOTH CON EL MÓVIL
 
