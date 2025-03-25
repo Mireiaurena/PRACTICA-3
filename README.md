@@ -318,8 +318,8 @@ Si se envían datos desde otro dispositivo al ESP32 a través de Bluetooth:
 
 ## **Ejercicios de mejora de nota:**
 ### **Ejercicio de mejora 1:**
-**Codigo main.cpp:**
-```
+**Codigo:**
+```cpp
 #include <Arduino.h>
 #include <WiFi.h>
 #include <WebServer.h>
@@ -373,8 +373,8 @@ El servidor web responde en la raíz ("/") con una página HTML simple mediante 
 
 
 ### **Ejercicio de mejora 2:**
-**Codigo main.cpp:**
-```
+**Codigo:**
+```cpp
 #include <Arduino.h>
 #include <BLEDevice.h>
 #include <BLEUtils.h>
